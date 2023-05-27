@@ -19,21 +19,28 @@ def fetch_overview(movie_id):
     overview = data['overview']
     return overview
 
-@st.cache
-def load_data():
-    movies_dict = pickle.load(open('movie_dict.pkl', 'rb'))
+def recommend(movie):
+    movie_index = movies[movies['title'] == movie].index[0]
+    distances = similarity[movie_index]
+    movies_list = sorted(list(enumerate(distances)), reverse=True, key=lambda x: x[1])[1:6]
 
-    # Get the Google Drive link for the file
-    file_url = "<https://drive.google.com/file/d/1MuBCHO6kjqfa0jW1UVWHMjB9f4oasWq6/view?usp=share_link>"
+    recommended_movies = []
+    recommended_movies_posters = []
+    recommended_movies_overviews = []
 
-    # Download the file from Google Drive
-    response = requests.get(file_url)
-    similarity = pickle.loads(response.content)
+    for i in movies_list:
+        movie_id = movies.iloc[i[0]].movie_id
+        recommended_movies.append(movies.iloc[i[0]].title)
+        recommended_movies_posters.append(fetch_poster(movie_id))
+        recommended_movies_overviews.append(fetch_overview(movie_id))
 
-    return movies_dict, similarity
+    return recommended_movies, recommended_movies_posters, recommended_movies_overviews
 
-movies_dict, similarity = load_data()
+
+movies_dict = pickle.load(open('movie_dict.pkl', 'rb'))
 movies = pd.DataFrame(movies_dict)
+
+similarity = pickle.load(open('similarity1.pkl', "rb"))
 
 st.title('Movie Recommendation System')
 
