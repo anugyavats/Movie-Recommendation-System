@@ -41,7 +41,7 @@ def recommend(movie):
 movies_dict = pickle.load(open('movie_dict.pkl', 'rb'))
 movies = pd.DataFrame(movies_dict)
 
-gdown.download("https://drive.google.com/uc?export=download&id=https://drive.google.com/file/d/1MuBCHO6kjqfa0jW1UVWHMjB9f4oasWq6/view?usp=share_link", "similarity1.pkl")
+gdown.download("https://drive.google.com/uc?export=download&id=1MuBCHO6kjqfa0jW1UVWHMjB9f4oasWq6", "similarity1.pkl")
 
 # Load similarity1.pkl
 with open("similarity1.pkl", "rb") as file:
