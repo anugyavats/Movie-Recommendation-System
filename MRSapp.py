@@ -4,6 +4,7 @@ import pandas as pd
 import requests
 import textwrap
 
+
 def fetch_poster(movie_id):
     url = "https://api.themoviedb.org/3/movie/{}?api_key=8265bd1679663a7ea12ac168da84d2e8&language=en-US".format(movie_id)
     data = requests.get(url)
@@ -40,14 +41,7 @@ def recommend(movie):
 movies_dict = pickle.load(open('movie_dict.pkl', 'rb'))
 movies = pd.DataFrame(movies_dict)
 
-url = "https://drive.google.com/uc?export=download&id=1MuBCHO6kjqfa0jW1UVWHMjB9f4oasWq6"
-response = requests.get(url)
-with open("similarity1.pkl", "wb") as file:
-    file.write(response.content)
-    
-# Load similarity1.pkl
-with open("similarity1.pkl", "rb") as file:
-    similarity = pickle.load(file)
+similarity = pickle.load(open('similarity1.pkl', "rb"))
 
 st.title('Movie Recommendation System')
 
