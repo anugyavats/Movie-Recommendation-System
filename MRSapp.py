@@ -20,6 +20,37 @@ def fetch_overview(movie_id):
     overview = data['overview']
     return overview
 
+
+movies_dict = pickle.load(open('movie_dict.pkl', 'rb'))
+movies = pd.DataFrame(movies_dict)
+
+# Google Drive link to the similarity1.pkl file
+similarity_link = "https://drive.google.com/file/d/1MuBCHO6kjqfa0jW1UVWHMjB9f4oasWq6/view?usp=share_link"
+
+# Extract the file ID from the Google Drive link
+file_id = similarity_link.split("/")[5]
+
+# Construct the download link using the file ID
+download_link = f"https://drive.google.com/uc?export=download&id={file_id}"
+
+# Download the similarity1.pkl file using requests
+response = requests.get(download_link)
+content = response.content
+
+# Save the downloaded content to a file
+with open('similarity1_downloaded.pkl', 'wb') as f:
+    f.write(content)
+
+# Load the saved file and verify its content
+try:
+    with open('similarity1_downloaded.pkl', 'rb') as f:
+        similarity = pickle.load(f)
+    print("The downloaded file has the correct content.")
+except pickle.UnpicklingError as e:
+    print("Error: Failed to load the downloaded file.")
+    print(e)
+
+
 def recommend(movie):
     movie_index = movies[movies['title'] == movie].index[0]
     distances = similarity[movie_index]
@@ -37,11 +68,6 @@ def recommend(movie):
 
     return recommended_movies, recommended_movies_posters, recommended_movies_overviews
 
-
-movies_dict = pickle.load(open('movie_dict.pkl', 'rb'))
-movies = pd.DataFrame(movies_dict)
-
-similarity = pickle.load(open('similarity1.pkl', "rb"))
 
 st.title('Movie Recommendation System')
 
