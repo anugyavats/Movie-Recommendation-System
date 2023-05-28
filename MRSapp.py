@@ -51,7 +51,7 @@ except pickle.UnpicklingError as e:
     print(e)
 
 
-def recommend(movie):
+def recommend(movie, similarity):
     movie_index = movies[movies['title'] == movie].index[0]
     distances = similarity[movie_index]
     movies_list = sorted(list(enumerate(distances)), reverse=True, key=lambda x: x[1])[1:6]
@@ -76,7 +76,7 @@ selected_movie_name = st.selectbox(
     movies['title'].values)
 
 if st.button('Show Recommendation'):
-    recommended_movie_names, recommended_movie_posters, recommended_movie_overviews = recommend(selected_movie_name)
+    recommended_movie_names, recommended_movie_posters, recommended_movie_overviews = recommend(selected_movie_name, similarity)
     num_movies = len(recommended_movie_names)
     num_columns = 5
     num_rows = (num_movies - 1) // num_columns + 1
