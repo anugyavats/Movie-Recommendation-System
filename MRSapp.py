@@ -25,7 +25,7 @@ movies_dict = pickle.load(open('movie_dict.pkl', 'rb'))
 movies = pd.DataFrame(movies_dict)
 
 # Google Drive link to the similarity1.pkl file
-similarity_link = "https://drive.google.com/file/d/1MuBCHO6kjqfa0jW1UVWHMjB9f4oasWq6/view?usp=share_link"
+similarity_link = "https://drive.google.com/file/d/1MuBCHO6kjqfa0jW1UVWHMjB9f4oasWq6/view?usp=sharing"
 
 # Extract the file ID from the Google Drive link
 file_id = similarity_link.split("/")[5]
